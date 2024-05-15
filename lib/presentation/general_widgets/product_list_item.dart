@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/utils/api_constants.dart';
-import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/gap_constants.dart';
 import 'package:shoppy/domain/entity/product.dart';
@@ -38,7 +37,7 @@ class ProductListItem extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: CachedNetworkImage(
-              imageUrl: ApiConstants.imageUrl + product.image,
+              imageUrl: ApiConstants.baseImageUrl + product.image,
               placeholder: (context, url) {
                 return const CircularProgressIndicator();
               },

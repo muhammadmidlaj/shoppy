@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/utils/api_constants.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/gap_constants.dart';
 import 'package:shoppy/domain/entity/customer.dart';
+import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
 
 class CustomerListItem extends StatelessWidget {
@@ -17,14 +17,13 @@ class CustomerListItem extends StatelessWidget {
     return BlocBuilder<CustomerBloc, CustomerState>(
       builder: (context, state) {
         return InkWell(
-          onTap: () {
-            context.read<CustomerBloc>().add(CustomerSelectEvent(customer));
-          },
+          onTap: () => onCustomerSelection(context),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: customer.isSelected
+              color: state.selectedCustomer != Customer.empty() &&
+                      state.selectedCustomer.id == customer.id
                   ? Colors.lightGreen.withOpacity(0.5)
                   : Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -43,7 +42,7 @@ class CustomerListItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: CachedNetworkImage(
                           imageUrl:
-                              ApiConstants.imageUrl + customer.profilePic!,
+                              ApiConstants.baseImageUrl + customer.profilePic!,
                           height: 80,
                           width: 80,
                           fit: BoxFit.cover,
@@ -104,5 +103,10 @@ class CustomerListItem extends StatelessWidget {
         );
       },
     );
+  }
+
+  onCustomerSelection(BuildContext context) {
+    context.read<CustomerBloc>().add(CustomerSelectEvent(customer));
+    context.read<CartBloc>().add(CartAddCustomerEvent(customer: customer));
   }
 }

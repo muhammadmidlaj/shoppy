@@ -4,6 +4,7 @@ class AppColorPallete {
   static const Color primaryColor = Color(0xFF6e965f);
   static const Color secondaryColor = Color(0xFFf4f4fc);
   static const Color white = Color(0xffFFFFFF);
+  static const Color darkGreen = Color(0xFF597254);
   static const Color eerieBlack = Color(0xff1A1A1A);
   static const Color black600 = Color(0xff4D4D4D);
 

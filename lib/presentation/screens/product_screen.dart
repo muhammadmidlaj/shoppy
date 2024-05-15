@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/utils/gap_constants.dart';
 import 'package:shoppy/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:shoppy/presentation/screens/cart_screen.dart';
-import 'package:shoppy/presentation/widgets/products_grid_view.dart';
+import 'package:shoppy/presentation/general_widgets/products_grid_view.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+  const ProductScreen({super.key, required this.isFromNavigationbar});
+  final bool isFromNavigationbar;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -33,6 +34,7 @@ class _ProductScreenState extends State<ProductScreen> {
           if (state is ProductLoadedState) {
             return ProductGridView(
               products: state.products,
+              isFromNavigationbar: widget.isFromNavigationbar,
             );
           }
           return const Center(
@@ -45,6 +47,13 @@ class _ProductScreenState extends State<ProductScreen> {
 
   AppBar _customeAppBar() {
     return AppBar(
+      leading: !widget.isFromNavigationbar
+          ? IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.keyboard_arrow_left))
+          : const SizedBox(),
       title: const Text("Products"),
       centerTitle: true,
       actions: [

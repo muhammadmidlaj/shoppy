@@ -1,21 +1,23 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/domain/entity/customer.dart';
 
 import 'package:shoppy/domain/entity/product.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
+import 'package:shoppy/presentation/screens/cart_screen.dart';
 
 import 'package:shoppy/presentation/screens/customer_screen.dart';
-import 'package:shoppy/presentation/widgets/product_list_item.dart';
+import 'package:shoppy/presentation/general_widgets/product_list_item.dart';
 import 'package:shoppy/widgets/custom_button.dart';
 
-
 class ProductGridView extends StatelessWidget {
-  const ProductGridView({super.key, required this.products});
+  const ProductGridView(
+      {super.key, required this.products, required this.isFromNavigationbar});
   final List<Product> products;
+  final bool isFromNavigationbar;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,9 @@ class ProductGridView extends StatelessWidget {
                             child: CustomButton(
                           label: "Checkout now",
                           borderRadius: 20,
-                          onTap: () => navigateToCustomerScreen(context),
+                          onTap: () => isFromNavigationbar
+                              ? navigateToCustomerScreen(context)
+                              : navigateTocartScreen(context),
                         ))
                       ],
                     ),
@@ -100,6 +104,12 @@ class ProductGridView extends StatelessWidget {
   navigateToCustomerScreen(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const CustomerScreen(isFromNavigationbar: false),
+    ));
+  }
+
+  navigateTocartScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const CartScreen(),
     ));
   }
 }

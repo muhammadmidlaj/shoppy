@@ -41,11 +41,23 @@ class CartProductDecrementEvent extends CartEvent {
   List<Object> get props => [product];
 }
 
-class AddCustomerTocartEvent extends CartEvent {
+class CartAddCustomerEvent extends CartEvent {
   final Customer customer;
 
-  const AddCustomerTocartEvent({required this.customer});
+  const CartAddCustomerEvent({required this.customer});
 
   @override
   List<Object> get props => [customer];
+}
+
+class CartClearEvent extends CartEvent {
+  const CartClearEvent();
+  @override
+  List<Object> get props => [];
+}
+
+class CartFetchLocalEvent extends CartEvent {
+  const CartFetchLocalEvent();
+  @override
+  List<Object> get props => [];
 }

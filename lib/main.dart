@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shoppy/core/di/injection.dart';
 import 'package:shoppy/core/hive/hive_init.dart';
 import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
+import 'package:shoppy/presentation/bloc/order_bloc/order_bloc.dart';
 import 'package:shoppy/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:shoppy/presentation/screens/layout_screen.dart';
 
@@ -25,16 +27,19 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => locator<ProductBloc>()),
         BlocProvider(create: (context) => locator<CartBloc>()),
         BlocProvider(create: (context) => locator<CustomerBloc>()),
+        BlocProvider(create: (context) => locator<OrderBloc>()),
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Shoppy',
-          theme: ThemeData(
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: AppColorPallete.primaryColor),
-            useMaterial3: true,
-          ),
-          home: const LayoutScreen()),
+      child: OKToast(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Shoppy',
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: AppColorPallete.primaryColor),
+              useMaterial3: true,
+            ),
+            home: const LayoutScreen()),
+      ),
     );
   }
 }

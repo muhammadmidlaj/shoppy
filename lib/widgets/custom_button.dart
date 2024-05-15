@@ -57,7 +57,7 @@ class CustomButton extends StatelessWidget {
                   )
                 : const SizedBox(),
             label: isLoading
-                ? const SpinKitWave(
+                ? const SpinKitCircle(
                     color: Colors.white,
                     size: 25.0,
                   )

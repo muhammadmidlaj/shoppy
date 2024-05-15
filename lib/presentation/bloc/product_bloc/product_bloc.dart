@@ -49,28 +49,27 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(ProductLoadedState(products));
     });
   }
+}
 
-  _insertProductToHive(List<Product> products) async {
-    try {
-      final productBox = Hive.box<ProductHiveModel>(HiveConstants.productBox);
-      await productBox.clear();
+_insertProductToHive(List<Product> products) async {
+  try {
+    final productBox = Hive.box<ProductHiveModel>(HiveConstants.productBox);
+    await productBox.clear();
 
-      final List<ProductHiveModel> hiveList =
-          ProductMapper.toHiveList(products);
-      productBox.addAll(hiveList);
-    } catch (e) {
-      log("failed to save product to hive $e");
-    }
+    final List<ProductHiveModel> hiveList = ProductMapper.toHiveList(products);
+    productBox.addAll(hiveList);
+  } catch (e) {
+    log("failed to save product to hive $e");
   }
+}
 
-  Future<List<Product>> _getProductsFromHive() async {
-    try {
-      final productBox = Hive.box<ProductHiveModel>(HiveConstants.productBox);
-      List<ProductHiveModel> hiveList = productBox.values.toList();
-      return ProductMapper.toProductList(hiveList);
-    } catch (e) {
-      log("failed to fetch data from hive $e");
-      return [];
-    }
+Future<List<Product>> _getProductsFromHive() async {
+  try {
+    final productBox = Hive.box<ProductHiveModel>(HiveConstants.productBox);
+    List<ProductHiveModel> hiveList = productBox.values.toList();
+    return ProductMapper.toProductList(hiveList);
+  } catch (e) {
+    log("failed to fetch data from hive $e");
+    return [];
   }
 }

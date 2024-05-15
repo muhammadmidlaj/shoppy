@@ -1,10 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppy/core/utils/debouncer.dart';
+import 'package:shoppy/core/utils/extentions.dart';
 import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/domain/entity/customer.dart';
+import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
-import 'package:shoppy/presentation/widgets/customer_list_item.dart';
+import 'package:shoppy/presentation/screens/cart_screen.dart';
+import 'package:shoppy/presentation/screens/product_screen.dart';
+import 'package:shoppy/presentation/general_widgets/customer_list_item.dart';
+import 'package:shoppy/widgets/custom_button.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({super.key, required this.isFromNavigationbar});
@@ -15,6 +23,7 @@ class CustomerScreen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<CustomerScreen> {
+  final _debouncer = Debouncer();
   final TextEditingController searchController = TextEditingController();
   @override
   void initState() {
@@ -33,7 +42,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
     return BlocConsumer<CustomerBloc, CustomerState>(
       listener: (context, state) {
         if (state is CustomerSelectedState) {
-          log("selectedstate ${state.selectedCustomer}");
+          log("selectedstate ${state.props}");
+        }
+        if (state is CustomerFailureState) {
+          state.message.showMessage();
         }
       },
       builder: (context, state) {
@@ -50,6 +62,18 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   child: Center(
                     child: TextFormField(
                       controller: searchController,
+                      onChanged: (value) {
+                        _debouncer.run(() {
+                          if (value.isEmpty) {
+                            context
+                                .read<CustomerBloc>()
+                                .add(CustomerFetchEvent());
+                          }
+                          context
+                              .read<CustomerBloc>()
+                              .add(CustomerSearchEvent(searchText: value));
+                        });
+                      },
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Search",
@@ -72,11 +96,35 @@ class _CustomerScreenState extends State<CustomerScreen> {
                 if (state is CustomerLoadedState ||
                     state is CustomerSelectedState)
                   Expanded(
-                      child: ListView.builder(
-                    itemCount: state.customerList.length,
-                    itemBuilder: (context, index) => CustomerListItem(
-                      customer: state.customerList[index],
-                    ),
+                      child: Stack(
+                    children: [
+                      ListView.builder(
+                        padding: const EdgeInsets.only(bottom: 40),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: state.customerList.length,
+                        itemBuilder: (context, index) => CustomerListItem(
+                          customer: state.customerList[index],
+                        ),
+                      ),
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          log(state.toString());
+                          if (state.selectedCustomer != Customer.empty()) {
+                            return Align(
+                                alignment: Alignment.bottomCenter,
+                                child: CustomButton(
+                                  label: state.cart.cartItems.isEmpty
+                                      ? "Add products "
+                                      : "Go to cart",
+                                  onTap: () => state.cart.cartItems.isEmpty
+                                      ? navigateToProductScreen(context)
+                                      : navigateToCartScreen(context),
+                                ));
+                          }
+                          return const SizedBox();
+                        },
+                      )
+                    ],
                   ))
               ],
             ),
@@ -99,5 +147,19 @@ class _CustomerScreenState extends State<CustomerScreen> {
       centerTitle: true,
       actions: const [Icon(Icons.menu), GapConstant.w8],
     );
+  }
+
+  navigateToProductScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const ProductScreen(
+        isFromNavigationbar: false,
+      ),
+    ));
+  }
+
+  navigateToCartScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const CartScreen(),
+    ));
   }
 }

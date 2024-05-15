@@ -44,7 +44,7 @@ class AppTypoGraphy {
     fontFamily: 'Poppins',
     fontSize: 22,
     color: AppColorPallete.black,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
   );
   static const titleMedium = TextStyle(
     fontFamily: 'Poppins',

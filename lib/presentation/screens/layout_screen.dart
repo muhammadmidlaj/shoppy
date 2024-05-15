@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/data/datasource/remote_data_source.dart';
+import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/screens/customer_screen.dart';
 import 'package:shoppy/presentation/screens/home_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
@@ -15,11 +17,19 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
+  @override
+  void initState() {
+    context.read<CartBloc>().add(const CartFetchLocalEvent());
+    super.initState();
+  }
+
   int currentIndex = 0;
 
   List<Widget> screenList = const [
     HomeScreen(),
-    ProductScreen(),
+    ProductScreen(
+      isFromNavigationbar: true,
+    ),
     CustomerScreen(
       isFromNavigationbar: true,
     )
