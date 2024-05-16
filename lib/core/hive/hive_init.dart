@@ -1,6 +1,6 @@
 import "package:hive_flutter/hive_flutter.dart";
 import "package:path_provider/path_provider.dart";
-import "package:shoppy/core/utils/hive_constants.dart";
+import "package:shoppy/core/constants/hive_constants.dart";
 import "package:shoppy/domain/entity/cart_hive_model.dart";
 import "package:shoppy/domain/entity/customer_hive_model.dart";
 import "package:shoppy/domain/entity/product_hive_model.dart";

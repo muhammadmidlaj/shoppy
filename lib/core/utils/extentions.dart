@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
+import 'package:shoppy/core/utils/app_typography.dart';
+import 'package:shoppy/core/utils/toast_components.dart';
 
 extension StringExtention on String {
   String capitalizeFirstLetter() {
@@ -10,14 +14,11 @@ extension StringExtention on String {
     return "${this[0].toUpperCase()}${split(' ').last[0].toUpperCase()}";
   }
 
-  showMessage() {
-    return showToast(
-      this,
+  showMessage(ToastType type) {
+    return showToastWidget(
+      ToastBar(message: this, toastType: type),
       position: ToastPosition.bottom,
       dismissOtherToast: true,
-      textAlign: TextAlign.center,
-      radius: 5,
-      textPadding: const EdgeInsets.all(8),
     );
   }
 }

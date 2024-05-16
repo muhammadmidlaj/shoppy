@@ -104,4 +104,11 @@ class AppTypoGraphy {
     fontSize: 12,
     fontWeight: FontWeight.w700,
   );
+
+  static const TextStyle appBarTitle = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColorPallete.darkGreen,
+    fontSize: 22,
+    fontWeight: FontWeight.w700,
+  );
 }

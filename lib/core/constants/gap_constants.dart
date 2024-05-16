@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoppy/core/utils/size_constants.dart';
+import 'package:shoppy/core/constants/size_constants.dart';
 
 
 

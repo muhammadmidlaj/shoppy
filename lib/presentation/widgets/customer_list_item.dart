@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoppy/core/utils/api_constants.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shoppy/core/constants/api_constants.dart';
+import 'package:shoppy/core/constants/asset_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
-import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomerListItem extends StatelessWidget {
   const CustomerListItem({super.key, required this.customer});
@@ -46,12 +50,25 @@ class CustomerListItem extends StatelessWidget {
                           height: 80,
                           width: 80,
                           fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              const SpinKitFadingCircle(
+                            color: AppColorPallete.primaryColor,
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: AppColorPallete.red,
+                          ),
                         ),
                       )
                     : Container(
                         height: 80,
                         width: 80,
-                        color: Colors.grey,
+                        padding: const EdgeInsets.all(10),
+                        color: AppColorPallete.lightGrey,
+                        child: Image.asset(
+                          AssetConstants.imUserProfile,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                 const SizedBox(height: 60, child: VerticalDivider()),
                 Expanded(
@@ -68,15 +85,16 @@ class CustomerListItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const Icon(
-                                Icons.circle_notifications,
-                                color: Colors.blue,
-                                size: 20,
+                              SvgPicture.asset(
+                                AssetConstants.icPhone,
+                                height: 20,
+                                width: 20,
                               ),
                               GapConstant.size(w: 5),
-                              const Icon(
-                                Icons.phone,
-                                size: 20,
+                              SvgPicture.asset(
+                                AssetConstants.icWhatsApp,
+                                height: 25,
+                                width: 25,
                               ),
                             ],
                           )

@@ -2,10 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shoppy/core/constants/asset_constants.dart';
+import 'package:shoppy/core/di/injection.dart';
+import 'package:shoppy/core/network/connection_checker.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/data/datasource/remote_data_source.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/screens/customer_screen.dart';
 import 'package:shoppy/presentation/screens/home_screen.dart';
+import 'package:shoppy/presentation/screens/order_success_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +25,7 @@ class LayoutScreen extends StatefulWidget {
 class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
+    locator<ConnectionChecker>().isConnected;
     context.read<CartBloc>().add(const CartFetchLocalEvent());
     super.initState();
   }
@@ -35,25 +42,42 @@ class _LayoutScreenState extends State<LayoutScreen> {
     )
   ];
 
-  List<BottomNavigationBarItem> navigationItems = const [
-    BottomNavigationBarItem(
-        icon: Icon(Icons.home_outlined),
-        activeIcon: Icon(Icons.home_filled),
-        label: "Home"),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.square_outlined),
-        activeIcon: Icon(Icons.square),
-        label: "Product"),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.group_outlined),
-        activeIcon: Icon(Icons.group),
-        label: "Customers")
-  ];
   @override
   Widget build(BuildContext context) {
-    final RemoteDataSource remoteDataSource =
-        RemoteDataSourceImpl(http.Client());
-    remoteDataSource.fetchProducts();
+    List<BottomNavigationBarItem> navigationItems = [
+      BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          AssetConstants.icHome,
+          colorFilter: ColorFilter.mode(
+              currentIndex == 0
+                  ? AppColorPallete.primaryColor
+                  : AppColorPallete.semiGrey,
+              BlendMode.srcIn),
+        ),
+        label: "Home",
+      ),
+      BottomNavigationBarItem(
+          icon: SvgPicture.asset(
+            AssetConstants.icBox,
+            colorFilter: ColorFilter.mode(
+                currentIndex == 1
+                    ? AppColorPallete.primaryColor
+                    : AppColorPallete.semiGrey,
+                BlendMode.srcIn),
+          ),
+          label: "Product"),
+      BottomNavigationBarItem(
+          icon: SvgPicture.asset(
+            AssetConstants.icUsers,
+            colorFilter: ColorFilter.mode(
+                currentIndex == 2
+                    ? AppColorPallete.primaryColor
+                    : AppColorPallete.semiGrey,
+                BlendMode.srcIn),
+          ),
+          label: "Customers")
+    ];
+
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,

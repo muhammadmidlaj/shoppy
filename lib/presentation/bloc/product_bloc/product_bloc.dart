@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shoppy/core/network/connection_checker.dart';
 import 'package:shoppy/core/usecase/usecase.dart';
-import 'package:shoppy/core/utils/hive_constants.dart';
+import 'package:shoppy/core/constants/hive_constants.dart';
 import 'package:shoppy/domain/entity/product.dart';
 import 'package:shoppy/domain/entity/product_hive_model.dart';
 import 'package:shoppy/domain/mappers/product_mapper.dart';

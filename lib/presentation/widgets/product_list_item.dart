@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoppy/core/utils/api_constants.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shoppy/core/constants/api_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
-import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
 import 'package:shoppy/domain/entity/product.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
@@ -19,14 +20,14 @@ class ProductListItem extends StatelessWidget {
       //margin: const EdgeInsets.all(4),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorPallete.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
             color: Color.fromARGB(15, 120, 119, 119),
             blurRadius: 12,
             offset: Offset(0, 0),
-            spreadRadius: 5,
+            spreadRadius: 3,
           )
         ],
       ),
@@ -39,13 +40,15 @@ class ProductListItem extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: ApiConstants.baseImageUrl + product.image,
               placeholder: (context, url) {
-                return const CircularProgressIndicator();
+                return const SpinKitFadingCircle(
+                  color: AppColorPallete.primaryColor,
+                );
               },
               errorWidget: (context, url, error) =>
                   const Icon(Icons.error_outline),
               height: 100,
               width: 80,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           GapConstant.h8,

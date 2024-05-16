@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/network/connection_checker.dart';
-import 'package:shoppy/core/utils/text_constants.dart';
+import 'package:shoppy/core/constants/text_constants.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/domain/entity/order.dart';
 import 'package:shoppy/domain/entity/product.dart';

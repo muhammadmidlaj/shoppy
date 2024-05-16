@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/core/utils/app_typography.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
+import 'package:shoppy/core/utils/shimmer_components.dart';
 import 'package:shoppy/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:shoppy/presentation/screens/cart_screen.dart';
-import 'package:shoppy/presentation/general_widgets/products_grid_view.dart';
+import 'package:shoppy/presentation/widgets/cart_icon.dart';
+import 'package:shoppy/presentation/widgets/products_grid_view.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key, required this.isFromNavigationbar});
@@ -27,9 +30,7 @@ class _ProductScreenState extends State<ProductScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ProductLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const ShimmerGridView();
           }
           if (state is ProductLoadedState) {
             return ProductGridView(
@@ -54,20 +55,20 @@ class _ProductScreenState extends State<ProductScreen> {
               },
               icon: const Icon(Icons.keyboard_arrow_left))
           : const SizedBox(),
-      title: const Text("Products"),
+      title: const Text(
+        "Products",
+        style: AppTypoGraphy.appBarTitle,
+      ),
       centerTitle: true,
-      actions: [
-        IconButton(
-            onPressed: () => navigateToCartScreen(context),
-            icon: const Icon(Icons.shopping_cart_outlined)),
+      actions: const [
+        CartIcon(),
+        // IconButton(
+        //     onPressed: () => navigateToCartScreen(context),
+        //     icon: const Icon(Icons.shopping_cart_outlined)),
         GapConstant.w8
       ],
     );
   }
 
-  navigateToCartScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const CartScreen(),
-    ));
-  }
+ 
 }

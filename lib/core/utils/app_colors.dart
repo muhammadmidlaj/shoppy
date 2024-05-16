@@ -20,7 +20,7 @@ class AppColorPallete {
   static const Color lightBrown = Color(0xFFCA8179);
   static const Color whiteGrey = Color(0xFFFDFDFD);
   static const Color lightCyan = Color(0xFF98D8D8);
-  static const Color lightGreen = Color(0xFF78C850);
+  static const Color lightGreen = Color.fromARGB(255, 168, 228, 137);
   static const Color lighterGrey = Color(0xFFF4F5F4);
   static const Color lightGrey = Color(0xFFF5F5F5);
   static const Color lightPink = Color(0xFFEE99AC);

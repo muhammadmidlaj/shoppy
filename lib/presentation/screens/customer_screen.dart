@@ -3,16 +3,22 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shoppy/core/constants/asset_constants.dart';
+import 'package:shoppy/core/constants/text_constants.dart';
+import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/debouncer.dart';
 import 'package:shoppy/core/utils/extentions.dart';
-import 'package:shoppy/core/utils/gap_constants.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
+import 'package:shoppy/core/utils/shimmer_components.dart';
+import 'package:shoppy/core/utils/toast_components.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
 import 'package:shoppy/presentation/screens/cart_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
-import 'package:shoppy/presentation/general_widgets/customer_list_item.dart';
-import 'package:shoppy/widgets/custom_button.dart';
+import 'package:shoppy/presentation/widgets/customer_list_item.dart';
+import 'package:shoppy/general_widgets/custom_button.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({super.key, required this.isFromNavigationbar});
@@ -42,10 +48,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
     return BlocConsumer<CustomerBloc, CustomerState>(
       listener: (context, state) {
         if (state is CustomerSelectedState) {
-          log("selectedstate ${state.props}");
+          log("selectedstate ${state.selectedCustomer}");
         }
         if (state is CustomerFailureState) {
-          state.message.showMessage();
+          state.message.showMessage(ToastType.error);
         }
       },
       builder: (context, state) {
@@ -67,7 +73,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           if (value.isEmpty) {
                             context
                                 .read<CustomerBloc>()
-                                .add(CustomerFetchEvent());
+                                .add(const CustomerFetchEvent());
                           }
                           context
                               .read<CustomerBloc>()
@@ -93,8 +99,23 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   ),
                 ),
                 GapConstant.h12,
+                if (state is CustomerLoadingState)
+                  const Expanded(
+                    child: ShimmerListView(),
+                  ),
+                if (state is CustomerFailureState)
+                  Column(
+                    children: [
+                      Lottie.asset(AssetConstants.lottieError),
+                      const Text(
+                        AppTexts.serverFailureMessage,
+                        style: AppTypoGraphy.bodyLarge,
+                      )
+                    ],
+                  ),
                 if (state is CustomerLoadedState ||
-                    state is CustomerSelectedState)
+                    state is CustomerSelectedState ||
+                    state is CustomerSelectionClearedState)
                   Expanded(
                       child: Stack(
                     children: [
@@ -143,7 +164,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
               },
               icon: const Icon(Icons.keyboard_arrow_left))
           : const SizedBox(),
-      title: const Text("Customers"),
+      title: const Text(
+        "Customers",
+        style: AppTypoGraphy.appBarTitle,
+      ),
       centerTitle: true,
       actions: const [Icon(Icons.menu), GapConstant.w8],
     );

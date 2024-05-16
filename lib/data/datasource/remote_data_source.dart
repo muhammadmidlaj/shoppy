@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:shoppy/core/errors/error.dart';
-import 'package:shoppy/core/utils/api_constants.dart';
+import 'package:shoppy/core/constants/api_constants.dart';
 import 'package:shoppy/data/model/customer_model.dart';
 import 'package:shoppy/data/model/order_model.dart';
 import 'package:shoppy/data/model/product_model.dart';
