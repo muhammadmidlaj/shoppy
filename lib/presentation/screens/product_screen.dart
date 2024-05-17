@@ -1,10 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
 import 'package:shoppy/core/utils/shimmer_components.dart';
 import 'package:shoppy/presentation/bloc/product_bloc/product_bloc.dart';
-import 'package:shoppy/presentation/screens/cart_screen.dart';
 import 'package:shoppy/presentation/widgets/cart_icon.dart';
 import 'package:shoppy/presentation/widgets/products_grid_view.dart';
 
@@ -69,6 +70,4 @@ class _ProductScreenState extends State<ProductScreen> {
       ],
     );
   }
-
- 
 }

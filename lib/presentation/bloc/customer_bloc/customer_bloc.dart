@@ -36,6 +36,11 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   }
 
   List<Customer> _customerList = [];
+  Customer _selectedCustomer = Customer.empty();
+
+  setSelectedCustomer(Customer customer) {
+    _selectedCustomer = customer;
+  }
 
   Future<void> _fetchCustomerHandler(
       CustomerFetchEvent event, Emitter<CustomerState> emit) async {
@@ -47,7 +52,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         emit(CustomerFailureState(AppTexts.noInternetMessage));
       } else {
         _customerList = cachedData;
-        emit(CustomerLoadedState(customers: cachedData));
+        emit(CustomerLoadedState(
+            customers: cachedData, selectedCustomer: _selectedCustomer));
       }
       return;
     }
@@ -56,14 +62,16 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       final List<Customer> cachedData = await _getCustomersFromHive();
       if (cachedData.isNotEmpty) {
         _customerList = cachedData;
-        emit(CustomerLoadedState(customers: cachedData));
+        emit(CustomerLoadedState(
+            customers: cachedData, selectedCustomer: _selectedCustomer));
       } else {
         emit(CustomerFailureState(failure.message));
       }
     }, (result) {
       _insertCustomersToHive(result);
       _customerList = result;
-      emit(CustomerLoadedState(customers: result));
+      emit(CustomerLoadedState(
+          customers: result, selectedCustomer: _selectedCustomer));
     });
   }
 
@@ -75,6 +83,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         customer.isSelected = !customer.isSelected;
       }
     }
+    _selectedCustomer = event.customer;
 
     emit(CustomerSelectedState(
         selectedCustomer: event.customer, customerList: _customerList));
@@ -85,6 +94,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     for (Customer customer in _customerList) {
       customer.isSelected = false;
     }
+    _selectedCustomer = Customer.empty();
     emit(CustomerSelectedState(
         customerList: _customerList, selectedCustomer: Customer.empty()));
   }
@@ -103,7 +113,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     response.fold((failure) {
       emit(CustomerFailureState(failure.message));
     }, (result) {
-      emit(CustomerLoadedState(customers: result));
+      emit(CustomerLoadedState(
+          customers: result, selectedCustomer: _selectedCustomer));
     });
   }
 }

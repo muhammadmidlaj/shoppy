@@ -19,6 +19,8 @@ import 'package:shoppy/presentation/screens/cart_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
 import 'package:shoppy/presentation/widgets/customer_list_item.dart';
 import 'package:shoppy/general_widgets/custom_button.dart';
+import 'package:shoppy/presentation/widgets/customer_list_view.dart';
+import 'package:shoppy/presentation/widgets/customer_search_field.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({super.key, required this.isFromNavigationbar});
@@ -61,43 +63,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Center(
-                    child: TextFormField(
-                      controller: searchController,
-                      onChanged: (value) {
-                        _debouncer.run(() {
-                          if (value.isEmpty) {
-                            context
-                                .read<CustomerBloc>()
-                                .add(const CustomerFetchEvent());
-                          }
-                          context
-                              .read<CustomerBloc>()
-                              .add(CustomerSearchEvent(searchText: value));
-                        });
-                      },
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search",
-                          prefixIcon: const Icon(Icons.search_rounded),
-                          suffixIcon: searchController.text.isEmpty
-                              ? const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.qr_code),
-                                    GapConstant.w8,
-                                    Icon(Icons.person_add),
-                                    GapConstant.w12
-                                  ],
-                                )
-                              : const SizedBox()),
-                    ),
-                  ),
-                ),
                 GapConstant.h12,
                 if (state is CustomerLoadingState)
                   const Expanded(
@@ -105,8 +70,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   ),
                 if (state is CustomerFailureState)
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Lottie.asset(AssetConstants.lottieError),
+                      Lottie.asset(AssetConstants.lottieError,
+                          height: 100, width: 100),
                       const Text(
                         AppTexts.serverFailureMessage,
                         style: AppTypoGraphy.bodyLarge,
@@ -116,37 +83,38 @@ class _CustomerScreenState extends State<CustomerScreen> {
                 if (state is CustomerLoadedState ||
                     state is CustomerSelectedState ||
                     state is CustomerSelectionClearedState)
-                  Expanded(
-                      child: Stack(
-                    children: [
-                      ListView.builder(
-                        padding: const EdgeInsets.only(bottom: 40),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: state.customerList.length,
-                        itemBuilder: (context, index) => CustomerListItem(
-                          customer: state.customerList[index],
-                        ),
-                      ),
-                      BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) {
-                          log(state.toString());
-                          if (state.selectedCustomer != Customer.empty()) {
-                            return Align(
-                                alignment: Alignment.bottomCenter,
-                                child: CustomButton(
-                                  label: state.cart.cartItems.isEmpty
-                                      ? "Add products "
-                                      : "Go to cart",
-                                  onTap: () => state.cart.cartItems.isEmpty
-                                      ? navigateToProductScreen(context)
-                                      : navigateToCartScreen(context),
-                                ));
-                          }
-                          return const SizedBox();
-                        },
-                      )
-                    ],
-                  ))
+                const   CustomerListView()
+                // Expanded(
+                //     child: Stack(
+                //   children: [
+                //     ListView.builder(
+                //       padding: const EdgeInsets.only(bottom: 40),
+                //       physics: const BouncingScrollPhysics(),
+                //       itemCount: state.customerList.length,
+                //       itemBuilder: (context, index) => CustomerListItem(
+                //         customer: state.customerList[index],
+                //       ),
+                //     ),
+                //     BlocBuilder<CartBloc, CartState>(
+                //       builder: (context, state) {
+                //         log(state.toString());
+                //         if (state.selectedCustomer != Customer.empty()) {
+                //           return Align(
+                //               alignment: Alignment.bottomCenter,
+                //               child: CustomButton(
+                //                 label: state.cart.cartItems.isEmpty
+                //                     ? "Add products "
+                //                     : "Go to cart",
+                //                 onTap: () => state.cart.cartItems.isEmpty
+                //                     ? navigateToProductScreen(context)
+                //                     : navigateToCartScreen(context),
+                //               ));
+                //         }
+                //         return const SizedBox();
+                //       },
+                //     )
+                //   ],
+                // ))
               ],
             ),
           ),
@@ -157,20 +125,21 @@ class _CustomerScreenState extends State<CustomerScreen> {
 
   AppBar _customeAppBar() {
     return AppBar(
-      leading: !widget.isFromNavigationbar
-          ? IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.keyboard_arrow_left))
-          : const SizedBox(),
-      title: const Text(
-        "Customers",
-        style: AppTypoGraphy.appBarTitle,
-      ),
-      centerTitle: true,
-      actions: const [Icon(Icons.menu), GapConstant.w8],
-    );
+        leading: !widget.isFromNavigationbar
+            ? IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.keyboard_arrow_left))
+            : const SizedBox(),
+        title: const Text(
+          "Customers",
+          style: AppTypoGraphy.appBarTitle,
+        ),
+        centerTitle: true,
+        actions: const [Icon(Icons.menu), GapConstant.w8],
+        bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(60), child: CustomerSearchField()));
   }
 
   navigateToProductScreen(BuildContext context) {

@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
   AppBar customeAppBar() {
     return AppBar(
         title: Text(
-          "Good day! 👋 ",
+          "Good day! 👋",
           style: AppTypoGraphy.titleLarge
               .copyWith(color: AppColorPallete.darkGreen),
         ),
@@ -167,6 +167,12 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Category> searchList = [];
 
   @override
+  void initState() {
+    searchList.addAll(categoryList);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     searchController.dispose();
     super.dispose();
@@ -203,6 +209,7 @@ class _SearchScreenState extends State<SearchScreen> {
             onChanged: (value) {
               searchList.clear();
               if (value.isEmpty) {
+                searchList.addAll(categoryList);
                 setState(() {});
                 return;
               }

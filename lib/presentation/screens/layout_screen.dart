@@ -25,8 +25,6 @@ class LayoutScreen extends StatefulWidget {
 class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
-    locator<ConnectionChecker>().isConnected;
-    context.read<CartBloc>().add(const CartFetchLocalEvent());
     super.initState();
   }
 

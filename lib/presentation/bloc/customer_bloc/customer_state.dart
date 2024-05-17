@@ -15,9 +15,10 @@ class CustomerInitialState extends CustomerState {}
 class CustomerLoadingState extends CustomerState {}
 
 class CustomerLoadedState extends CustomerState {
-  CustomerLoadedState({required List<Customer> customers})
+  CustomerLoadedState({required List<Customer> customers,required Customer selectedCustomer})
       : super(
           customerList: customers,
+          customer: selectedCustomer
         );
 
   @override
