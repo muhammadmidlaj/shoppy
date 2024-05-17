@@ -53,17 +53,15 @@ class _CustomerSearchFieldState extends State<CustomerSearchField> {
               hintStyle: AppTypoGraphy.bodyLarge.copyWith(
                 color: AppColorPallete.grey,
               ),
-              suffixIcon: searchController.text.isEmpty
-                  ? const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.qr_code),
-                        GapConstant.w8,
-                        Icon(Icons.person_add),
-                        GapConstant.w12
-                      ],
-                    )
-                  : const SizedBox()),
+              suffixIcon: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.qr_code),
+                  GapConstant.w8,
+                  Icon(Icons.person_add),
+                  GapConstant.w12
+                ],
+              )),
         ),
       ),
     );

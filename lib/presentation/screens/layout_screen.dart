@@ -67,19 +67,30 @@ class _LayoutScreenState extends State<LayoutScreen> {
           label: "Customers")
     ];
 
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: screenList,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        backgroundColor: Colors.white,
-        unselectedItemColor: AppColorPallete.grey,
-        selectedItemColor: Colors.green,
-        type: BottomNavigationBarType.fixed,
-        items: navigationItems,
-        onTap: onTabSelection,
+    return PopScope(
+      canPop: currentIndex != 0 ? false : true,
+      onPopInvoked: (didPop) {
+        if (currentIndex != 0) {
+          setState(() {
+            currentIndex = 0;
+          });
+          return;
+        }
+      },
+      child: Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: screenList,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          backgroundColor: Colors.white,
+          unselectedItemColor: AppColorPallete.grey,
+          selectedItemColor: Colors.green,
+          type: BottomNavigationBarType.fixed,
+          items: navigationItems,
+          onTap: onTabSelection,
+        ),
       ),
     );
   }

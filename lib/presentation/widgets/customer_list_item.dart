@@ -64,7 +64,9 @@ class CustomerListItem extends StatelessWidget {
                         height: 80,
                         width: 80,
                         padding: const EdgeInsets.all(10),
-                        color: AppColorPallete.lightGrey,
+                        decoration: BoxDecoration(
+                            color: AppColorPallete.lightGrey,
+                            borderRadius: BorderRadius.circular(10)),
                         child: Image.asset(
                           AssetConstants.imUserProfile,
                           fit: BoxFit.cover,
@@ -103,12 +105,16 @@ class CustomerListItem extends StatelessWidget {
                       GapConstant.h4,
                       Text(
                         "ID :${customer.id}",
-                        style: AppTypoGraphy.darkGreyBold12,
+                        style: AppTypoGraphy.labelMedium.copyWith(
+                            color: AppColorPallete.darkGrey,
+                            fontWeight: FontWeight.w700),
                       ),
                       GapConstant.h4,
                       Text(
                         "${customer.street}, ${customer.city}, ${customer.state}",
-                        style: AppTypoGraphy.darkGreyBold12,
+                        style: AppTypoGraphy.labelMedium.copyWith(
+                            color: AppColorPallete.darkGrey,
+                            fontWeight: FontWeight.w700),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       )

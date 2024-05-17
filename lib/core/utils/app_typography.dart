@@ -98,13 +98,6 @@ class AppTypoGraphy {
     fontWeight: FontWeight.w500,
   );
 
-  static const TextStyle darkGreyBold12 = TextStyle(
-    fontFamily: "Poppins",
-    color: AppColorPallete.darkGrey,
-    fontSize: 12,
-    fontWeight: FontWeight.w700,
-  );
-
   static const TextStyle appBarTitle = TextStyle(
     fontFamily: "Poppins",
     color: AppColorPallete.darkGreen,

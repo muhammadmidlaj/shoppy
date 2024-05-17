@@ -50,7 +50,7 @@ class CustomerListView extends StatelessWidget {
             child: Stack(
           children: [
             ListView.builder(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 50),
               physics: const BouncingScrollPhysics(),
               itemCount: state.customerList.length,
               itemBuilder: (context, index) => CustomerListItem(
@@ -63,13 +63,16 @@ class CustomerListView extends StatelessWidget {
                 if (state.selectedCustomer != Customer.empty()) {
                   return Align(
                       alignment: Alignment.bottomCenter,
-                      child: CustomButton(
-                        label: state.cart.cartItems.isEmpty
-                            ? "Add products "
-                            : "Go to cart",
-                        onTap: () => state.cart.cartItems.isEmpty
-                            ? navigateToProductScreen(context)
-                            : navigateToCartScreen(context),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CustomButton(
+                          label: state.cart.cartItems.isEmpty
+                              ? "Add products "
+                              : "Go to cart",
+                          onTap: () => state.cart.cartItems.isEmpty
+                              ? navigateToProductScreen(context)
+                              : navigateToCartScreen(context),
+                        ),
                       ));
                 }
                 return const SizedBox();

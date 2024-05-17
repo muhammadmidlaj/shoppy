@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shoppy/core/constants/asset_constants.dart';
 import 'package:shoppy/core/constants/text_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/extentions.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
@@ -25,7 +27,6 @@ class CustomerScreen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<CustomerScreen> {
-  
   // final TextEditingController searchController = TextEditingController();
   @override
   void initState() {
@@ -54,30 +55,20 @@ class _CustomerScreenState extends State<CustomerScreen> {
         return Scaffold(
           appBar: _customeAppBar(),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
             child: Column(
               children: [
-                GapConstant.h12,
                 if (state is CustomerLoadingState)
                   const Expanded(
                     child: ShimmerListView(),
                   ),
-                if (state is CustomerFailureState)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Lottie.asset(AssetConstants.lottieError,
-                          height: 100, width: 100),
-                      const Text(
-                        AppTexts.serverFailureMessage,
-                        style: AppTypoGraphy.bodyLarge,
-                      )
-                    ],
-                  ),
+
                 if (state is CustomerLoadedState ||
                     state is CustomerSelectedState ||
                     state is CustomerSelectionClearedState)
-                const   CustomerListView()
+                  const CustomerListView()
                 // Expanded(
                 //     child: Stack(
                 //   children: [
