@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shoppy/core/constants/api_constants.dart';
+import 'package:shoppy/core/constants/text_constants.dart';
 import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
@@ -65,7 +65,8 @@ class CartListItem extends StatelessWidget {
                 ),
                 RichText(
                     text: TextSpan(
-                        text: "\$${product.price.toStringAsFixed(0)}",
+                        text:
+                            "${AppTexts.rupeeSymbol}${product.price.toStringAsFixed(0)}",
                         style: AppTypoGraphy.bodyLarge
                             .copyWith(color: AppColorPallete.darkGreen),
                         children: [
@@ -112,7 +113,7 @@ class CartListItem extends StatelessWidget {
           SizedBox(
             width: 50,
             child: AutoSizeText(
-              "\$${product.totalAmount.toStringAsFixed(0)}",
+              "${AppTexts.rupeeSymbol}${product.totalAmount.toStringAsFixed(0)}",
               style: AppTypoGraphy.titleLarge,
               maxLines: 1,
               //overflow: TextOverflow.ellipsis,

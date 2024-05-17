@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ))
               ];
             },
-            body: DiscoverySection()),
+            body: const DiscoverySection()),
 
         // CustomScrollView(
         //   slivers: [
@@ -436,7 +436,7 @@ class _DiscoverySectionState extends State<DiscoverySection> {
                                   const Icon(Icons.error_outline),
                               height: 100,
                               width: 80,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           Align(

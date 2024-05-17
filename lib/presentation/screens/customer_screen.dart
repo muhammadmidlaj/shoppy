@@ -1,24 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shoppy/core/constants/asset_constants.dart';
 import 'package:shoppy/core/constants/text_constants.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
-import 'package:shoppy/core/utils/debouncer.dart';
 import 'package:shoppy/core/utils/extentions.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
 import 'package:shoppy/core/utils/shimmer_components.dart';
 import 'package:shoppy/core/utils/toast_components.dart';
-import 'package:shoppy/domain/entity/customer.dart';
-import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
 import 'package:shoppy/presentation/screens/cart_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
-import 'package:shoppy/presentation/widgets/customer_list_item.dart';
-import 'package:shoppy/general_widgets/custom_button.dart';
 import 'package:shoppy/presentation/widgets/customer_list_view.dart';
 import 'package:shoppy/presentation/widgets/customer_search_field.dart';
 
@@ -31,8 +25,8 @@ class CustomerScreen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<CustomerScreen> {
-  final _debouncer = Debouncer();
-  final TextEditingController searchController = TextEditingController();
+  
+  // final TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     context.read<CustomerBloc>().add(const CustomerFetchEvent());
@@ -41,7 +35,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
 
   @override
   void dispose() {
-    searchController.dispose();
+    // searchController.dispose();
     super.dispose();
   }
 

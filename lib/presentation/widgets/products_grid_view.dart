@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoppy/core/constants/text_constants.dart';
 import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
-import 'package:shoppy/domain/entity/customer.dart';
 
 import 'package:shoppy/domain/entity/product.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
@@ -26,7 +26,6 @@ class ProductGridView extends StatelessWidget {
     return Stack(
       children: [
         GridView.builder(
-          //shrinkWrap: true,
           padding:
               const EdgeInsets.only(bottom: 88, left: 16, right: 16, top: 12),
           physics: const BouncingScrollPhysics(),
@@ -74,7 +73,7 @@ class ProductGridView extends StatelessWidget {
                                 .copyWith(color: AppColorPallete.darkGreen),
                           ),
                           Text(
-                            "\$${context.read<CartBloc>().totalAmount.toStringAsFixed(0)}",
+                            "${AppTexts.rupeeSymbol}${context.read<CartBloc>().totalAmount.toStringAsFixed(0)}",
                             style: AppTypoGraphy.titleLarge
                                 .copyWith(color: AppColorPallete.darkGreen),
                             overflow: TextOverflow.ellipsis,

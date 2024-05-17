@@ -2,6 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shoppy/core/constants/asset_constants.dart';
+import 'package:shoppy/core/constants/gap_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
+import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/general_widgets/custom_button.dart';
 import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
@@ -17,6 +22,30 @@ class CustomerListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CustomerBloc, CustomerState>(
       builder: (context, state) {
+        if (state.customerList.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AssetConstants.icUsers,
+                  height: 100,
+                  width: 100,
+                  colorFilter: ColorFilter.mode(
+                      AppColorPallete.primaryColor.withOpacity(0.8),
+                      BlendMode.srcIn),
+                ),
+                GapConstant.h20,
+                Text(
+                  "No customers found",
+                  style: AppTypoGraphy.titleLarge
+                      .copyWith(color: AppColorPallete.darkGreen),
+                ),
+              ],
+            ),
+          );
+        }
         return Expanded(
             child: Stack(
           children: [

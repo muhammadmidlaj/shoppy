@@ -1,3 +1,4 @@
+import 'package:shoppy/core/utils/typedef.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/domain/entity/customer_hive_model.dart';
 
@@ -38,8 +39,8 @@ class CustomerMapper {
       modifiedTime: customer.modifiedTime,
       flag: customer.flag);
 
-  static List<CustomerHiveModel> toHiveList(List<Customer> customers) =>
+  static List<CustomerHiveModel> toHiveList(CustomerList customers) =>
       customers.map((customer) => toHiveModel(customer)).toList();
-  static List<Customer> toCustomerList(List<CustomerHiveModel> customers) =>
+  static CustomerList toCustomerList(List<CustomerHiveModel> customers) =>
       customers.map((customer) => toCustomer(customer)).toList();
 }

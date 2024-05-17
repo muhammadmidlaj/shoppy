@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
+
 import 'package:oktoast/oktoast.dart';
-import 'package:shoppy/core/constants/gap_constants.dart';
-import 'package:shoppy/core/utils/app_colors.dart';
-import 'package:shoppy/core/utils/app_typography.dart';
+
 import 'package:shoppy/core/utils/toast_components.dart';
 
 extension StringExtention on String {

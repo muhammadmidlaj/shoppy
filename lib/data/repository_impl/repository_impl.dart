@@ -6,7 +6,6 @@ import 'package:shoppy/data/model/order_model.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/domain/entity/order.dart';
 import 'package:shoppy/domain/entity/product.dart';
-import 'package:shoppy/domain/mappers/customer_mapper.dart';
 import 'package:shoppy/domain/mappers/product_mapper.dart';
 import 'package:shoppy/domain/repositories/repository.dart';
 

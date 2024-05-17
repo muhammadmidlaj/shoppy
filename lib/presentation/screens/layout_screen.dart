@@ -1,19 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shoppy/core/constants/asset_constants.dart';
-import 'package:shoppy/core/di/injection.dart';
-import 'package:shoppy/core/network/connection_checker.dart';
 import 'package:shoppy/core/utils/app_colors.dart';
-import 'package:shoppy/data/datasource/remote_data_source.dart';
-import 'package:shoppy/presentation/bloc/cart_bloc/cart_bloc.dart';
 import 'package:shoppy/presentation/screens/customer_screen.dart';
 import 'package:shoppy/presentation/screens/home_screen.dart';
-import 'package:shoppy/presentation/screens/order_success_screen.dart';
 import 'package:shoppy/presentation/screens/product_screen.dart';
-import 'package:http/http.dart' as http;
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -49,7 +40,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           colorFilter: ColorFilter.mode(
               currentIndex == 0
                   ? AppColorPallete.primaryColor
-                  : AppColorPallete.semiGrey,
+                  : AppColorPallete.grey,
               BlendMode.srcIn),
         ),
         label: "Home",
@@ -60,7 +51,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
             colorFilter: ColorFilter.mode(
                 currentIndex == 1
                     ? AppColorPallete.primaryColor
-                    : AppColorPallete.semiGrey,
+                    : AppColorPallete.grey,
                 BlendMode.srcIn),
           ),
           label: "Product"),
@@ -70,7 +61,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
             colorFilter: ColorFilter.mode(
                 currentIndex == 2
                     ? AppColorPallete.primaryColor
-                    : AppColorPallete.semiGrey,
+                    : AppColorPallete.grey,
                 BlendMode.srcIn),
           ),
           label: "Customers")
@@ -84,7 +75,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         backgroundColor: Colors.white,
-        unselectedItemColor: const Color(0xFF9E9E9E),
+        unselectedItemColor: AppColorPallete.grey,
         selectedItemColor: Colors.green,
         type: BottomNavigationBarType.fixed,
         items: navigationItems,

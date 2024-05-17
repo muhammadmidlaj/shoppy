@@ -1,9 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/domain/entity/customer_hive_model.dart';
-import 'package:shoppy/domain/entity/product.dart';
 import 'package:shoppy/domain/entity/product_hive_model.dart';
-
 part 'cart_hive_model.g.dart';
 
 @HiveType(typeId: 3)

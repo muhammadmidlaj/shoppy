@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shoppy/core/utils/typedef.dart';
-import 'package:shoppy/data/model/customer_model.dart';
+
 import 'package:shoppy/data/model/product_model.dart';
 import 'package:shoppy/domain/entity/order.dart';
 

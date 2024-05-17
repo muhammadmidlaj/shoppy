@@ -1,7 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:shoppy/core/constants/asset_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
 import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
 import 'package:shoppy/core/utils/shimmer_components.dart';
@@ -34,6 +35,30 @@ class _ProductScreenState extends State<ProductScreen> {
             return const ShimmerGridView();
           }
           if (state is ProductLoadedState) {
+            if (state.products.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      AssetConstants.icBox,
+                      height: 100,
+                      width: 100,
+                      colorFilter: ColorFilter.mode(
+                          AppColorPallete.primaryColor.withOpacity(0.8),
+                          BlendMode.srcIn),
+                    ),
+                    GapConstant.h20,
+                    Text(
+                      "No products found",
+                      style: AppTypoGraphy.titleLarge
+                          .copyWith(color: AppColorPallete.darkGreen),
+                    ),
+                  ],
+                ),
+              );
+            }
             return ProductGridView(
               products: state.products,
               isFromNavigationbar: widget.isFromNavigationbar,

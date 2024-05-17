@@ -1,3 +1,4 @@
+import 'package:shoppy/core/utils/typedef.dart';
 import 'package:shoppy/data/model/product_model.dart';
 import 'package:shoppy/domain/entity/product.dart';
 import 'package:shoppy/domain/entity/product_hive_model.dart';
@@ -44,8 +45,8 @@ class ProductMapper {
   static List<ProductModel> toModelList(List<Product> productList) =>
       productList.map((product) => toProductModel(product)).toList();
 
-  static List<ProductHiveModel> toHiveList(List<Product> productList) =>
+  static List<ProductHiveModel> toHiveList(ProductList productList) =>
       productList.map((product) => toHiveModel(product)).toList();
-  static List<Product> toProductList(List<ProductHiveModel> productList) =>
+  static ProductList toProductList(List<ProductHiveModel> productList) =>
       productList.map((product) => toProduct(product)).toList();
 }

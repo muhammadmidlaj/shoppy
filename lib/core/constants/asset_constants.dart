@@ -22,9 +22,8 @@ class AssetConstants {
   static const String icEmptyCart = "$iconPath/empty_cart.svg";
   static const String icWhatsApp = "$iconPath/whatsapp.svg";
   static const String icPhone = "$iconPath/phone.svg";
-  static const String icHomeFilled = "$iconPath/home_filled.svg";
-  static const String icBoxFilled = "$iconPath/box_filled.svg";
-  static const String icUsersFilled = "$iconPath/users_filled.svg";
+
+
 
   static const String lottieSuccess = "$animationPath/success.json";
   static const String lottieError = "$animationPath/error.json";

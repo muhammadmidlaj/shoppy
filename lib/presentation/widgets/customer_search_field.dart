@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoppy/core/constants/gap_constants.dart';
+import 'package:shoppy/core/utils/app_colors.dart';
+import 'package:shoppy/core/utils/app_typography.dart';
 import 'package:shoppy/core/utils/debouncer.dart';
 import 'package:shoppy/presentation/bloc/customer_bloc/customer_bloc.dart';
 
@@ -26,7 +28,8 @@ class _CustomerSearchFieldState extends State<CustomerSearchField> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       decoration: BoxDecoration(
-          border: Border.all(), borderRadius: BorderRadius.circular(30)),
+          border: Border.all(color: AppColorPallete.darkGreen),
+          borderRadius: BorderRadius.circular(30)),
       child: Center(
         child: TextFormField(
           controller: searchController,
@@ -43,7 +46,13 @@ class _CustomerSearchFieldState extends State<CustomerSearchField> {
           decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Search",
-              prefixIcon: const Icon(Icons.search_rounded),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: AppColorPallete.grey,
+              ),
+              hintStyle: AppTypoGraphy.bodyLarge.copyWith(
+                color: AppColorPallete.grey,
+              ),
               suffixIcon: searchController.text.isEmpty
                   ? const Row(
                       mainAxisSize: MainAxisSize.min,

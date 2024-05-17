@@ -8,6 +8,7 @@ import 'package:shoppy/core/network/connection_checker.dart';
 import 'package:shoppy/core/usecase/usecase.dart';
 import 'package:shoppy/core/constants/hive_constants.dart';
 import 'package:shoppy/core/constants/text_constants.dart';
+import 'package:shoppy/core/utils/typedef.dart';
 import 'package:shoppy/domain/entity/customer.dart';
 import 'package:shoppy/domain/entity/customer_hive_model.dart';
 import 'package:shoppy/domain/mappers/customer_mapper.dart';
@@ -35,7 +36,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     on<CustomerSearchEvent>(_customerSearchHandler);
   }
 
-  List<Customer> _customerList = [];
+ CustomerList _customerList = [];
   Customer _selectedCustomer = Customer.empty();
 
   setSelectedCustomer(Customer customer) {
@@ -46,10 +47,12 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       CustomerFetchEvent event, Emitter<CustomerState> emit) async {
     emit(CustomerLoadingState());
     bool isConnected = await _connectionChecker.isConnected;
+    // fetch customer from local if internet is not connected
     if (!isConnected) {
-      final List<Customer> cachedData = await _getCustomersFromHive();
+      final CustomerList cachedData = await _getCustomersFromHive();
       if (cachedData.isEmpty) {
-        emit(CustomerFailureState(AppTexts.noInternetMessage));
+        emit(CustomerFailureState(AppTexts
+            .noInternetMessage)); // show internet failure if the local data is empty
       } else {
         _customerList = cachedData;
         emit(CustomerLoadedState(
@@ -57,16 +60,16 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
       }
       return;
     }
+    // fetch customer from server
     final response = await _fetchCustomersUseCase.call(NoParams());
     response.fold((failure) async {
-      final List<Customer> cachedData = await _getCustomersFromHive();
-      if (cachedData.isNotEmpty) {
-        _customerList = cachedData;
-        emit(CustomerLoadedState(
-            customers: cachedData, selectedCustomer: _selectedCustomer));
-      } else {
-        emit(CustomerFailureState(failure.message));
-      }
+      // final List<Customer> cachedData = await _getCustomersFromHive();
+      // if (cachedData.isNotEmpty) {
+      //   _customerList = cachedData;
+      //   emit(CustomerLoadedState(
+      //       customers: cachedData, selectedCustomer: _selectedCustomer));
+      // } else {
+      emit(CustomerFailureState(failure.message));
     }, (result) {
       _insertCustomersToHive(result);
       _customerList = result;
@@ -78,7 +81,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   Future<void> _customerSelectionHandler(
       CustomerSelectEvent event, Emitter<CustomerState> emit) async {
     for (Customer customer in _customerList) {
-      customer.isSelected = false;
+      customer.isSelected = false; // set all customer selection to false
       if (customer == event.customer) {
         customer.isSelected = !customer.isSelected;
       }
@@ -92,7 +95,7 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
   Future<void> _customerSelectionClearHandler(
       CustomerSelctionClearEvent event, Emitter<CustomerState> emit) async {
     for (Customer customer in _customerList) {
-      customer.isSelected = false;
+      customer.isSelected = false; // set all customer selection to false
     }
     _selectedCustomer = Customer.empty();
     emit(CustomerSelectedState(
@@ -132,7 +135,7 @@ _insertCustomersToHive(List<Customer> customerList) async {
   }
 }
 
-Future<List<Customer>> _getCustomersFromHive() async {
+Future<CustomerList> _getCustomersFromHive() async {
   try {
     final customerBox = Hive.box<CustomerHiveModel>(HiveConstants.customerBox);
     final List<CustomerHiveModel> hiveList = customerBox.values.toList();

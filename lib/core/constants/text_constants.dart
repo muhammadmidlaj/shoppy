@@ -1,4 +1,5 @@
 class AppTexts {
+  static const String rupeeSymbol = "₹";
   static const String noInternetMessage =
       "Oops! It seems you're offline. Please check your internet connection";
   static const String orderCreateSuccessMessage = "Order completed ";
