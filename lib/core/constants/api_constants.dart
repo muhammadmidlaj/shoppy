@@ -1,6 +1,6 @@
 class ApiConstants {
-  static const String baseUrl = "http://143.198.61.94:8000/api";
-  static const String baseImageUrl = "http://143.198.61.94:8000";
+  static const String baseUrl = "YOUR_API_BASE_URL";
+  static const String baseImageUrl = "YOUR_IMAGE_URL";
   static headers() => {'Content-Type': 'application/json'};
 
   static const String products = "/products/";
